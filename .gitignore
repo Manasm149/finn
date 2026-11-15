@@ -1,0 +1,8 @@
+.env
+__pycache__/
+.pytest_cache/
+data/sample.db
+data/*.db-journal
+# data/finn.db is deliberately NOT ignored: commit a warmed cache so a deploy still
+# answers when an exchange blocks the host (see README, "Deploying").
+.venv/

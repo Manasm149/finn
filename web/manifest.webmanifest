@@ -1,0 +1,10 @@
+{
+  "name": "FINN",
+  "short_name": "FINN",
+  "description": "What changed in your book, and what of it matters.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#F3F4EF",
+  "theme_color": "#F3F4EF",
+  "icons": [{"src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable"}]
+}

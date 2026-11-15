@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F3F4EF">
+<title>FINN</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div id="app">
+  <header id="top">
+    <div class="bar">
+      <a class="mark" href="#today" aria-label="FINN, go to Today">FINN</a>
+      <nav id="tabs" aria-label="Sections">
+        <a href="#today" data-tab="today">Today</a>
+        <a href="#book" data-tab="book">Book</a>
+        <a href="#rules" data-tab="rules">Rules</a>
+      </nav>
+    </div>
+    <div id="sample" hidden>Sample data: invented companies and filings.</div>
+  </header>
+  <main id="view" tabindex="-1"></main>
+  <div id="suggest" hidden></div>
+  <form id="dock" autocomplete="off">
+    <input id="q" type="text" inputmode="search" enterkeyhint="go"
+           placeholder="Ask, or type any NSE ticker" aria-label="Ask FINN or type a ticker">
+    <button type="button" id="mic" aria-label="Speak your question" hidden>
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M12 15a3.5 3.5 0 0 0 3.5-3.5v-5a3.5 3.5 0 0 0-7 0v5A3.5 3.5 0 0 0 12 15Zm6-3.5a6 6 0 0 1-12 0M12 17.5V21" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+    <button type="submit" id="go" aria-label="Ask">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 12h13M12.5 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </button>
+  </form>
+  <div id="sheet" hidden role="dialog" aria-modal="true"><div class="scrim" data-close></div><div class="panel"></div></div>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

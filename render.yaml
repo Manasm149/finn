@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: finn
+    runtime: docker
+    plan: free
+    healthCheckPath: /healthz
+    envVars:
+      - key: FINN_SECRET
+        generateValue: true
+      - key: FINN_USERS
+        sync: false
+      - key: FINN_LLM_BASE_URL
+        sync: false
+      - key: FINN_LLM_API_KEY
+        sync: false
+      - key: FINN_MODEL_FAST
+        sync: false
+      - key: FINN_MODEL_SMART
+        sync: false

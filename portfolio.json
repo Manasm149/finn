@@ -1,0 +1,23 @@
+{
+  "note": "Mock portfolio: 18 NSE names across sectors and sizes. Weights are % of book.",
+  "holdings": [
+    {"symbol": "RELIANCE",   "weight": 9},
+    {"symbol": "HDFCBANK",   "weight": 9},
+    {"symbol": "TCS",        "weight": 7},
+    {"symbol": "BHARTIARTL", "weight": 7},
+    {"symbol": "LT",         "weight": 6},
+    {"symbol": "ITC",        "weight": 6},
+    {"symbol": "SUNPHARMA",  "weight": 6},
+    {"symbol": "MARUTI",     "weight": 6},
+    {"symbol": "BAJFINANCE", "weight": 6},
+    {"symbol": "TATASTEEL",  "weight": 5},
+    {"symbol": "TRENT",      "weight": 5},
+    {"symbol": "DIXON",      "weight": 5},
+    {"symbol": "POLYCAB",    "weight": 5},
+    {"symbol": "PERSISTENT", "weight": 4},
+    {"symbol": "CDSL",       "weight": 4},
+    {"symbol": "KPITTECH",   "weight": 4},
+    {"symbol": "DEEPAKNTR",  "weight": 3},
+    {"symbol": "IEX",        "weight": 3}
+  ]
+}

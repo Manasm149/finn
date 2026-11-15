@@ -1,0 +1,22 @@
+# Push alerts to Telegram while the app is closed. Enable by adding the two secrets.
+# Note: NSE and BSE sometimes refuse GitHub's IP ranges. If this job reports source
+# errors, run `python -m finn.watch` from cron on any machine with an Indian IP instead.
+name: watch
+on:
+  schedule:
+    - cron: "*/30 3-13 * * 1-5"   # every 30 min, 08:30-19:00 IST, weekdays
+  workflow_dispatch:
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: pip install -r requirements.txt
+      - uses: actions/cache@v4
+        with: { path: data, key: finn-watch-${{ github.run_id }}, restore-keys: finn-watch- }
+      - run: python -m finn.watch
+        env:
+          FINN_TELEGRAM_TOKEN: ${{ secrets.FINN_TELEGRAM_TOKEN }}
+          FINN_TELEGRAM_CHAT: ${{ secrets.FINN_TELEGRAM_CHAT }}
