@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "regions": ["bom1"],
   "functions": {
-    "index.py": {
+    "finn/app.py": {
       "excludeFiles": "{tests/**,docs/**,.github/**,**/__pycache__/**,data/sample.db}"
     }
   }
