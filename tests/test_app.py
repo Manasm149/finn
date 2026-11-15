@@ -52,3 +52,32 @@ def test_narrative_job_and_ask_routes():
     assert c.post("/api/ask", json={"q": "Kaveri Auto"}).get_json()["symbol"] == "KAVERIAUTO"
     a = c.post("/api/ask", json={"q": "Why did receivable days move up at DHRUVTECH?"}).get_json()
     assert a["type"] == "answer" and "receivable" in a["passages"][0]["text"].lower()
+
+
+def test_serverless_runs_research_inside_the_request(monkeypatch):
+    """On Vercel a background thread may be frozen after the response, so the job runs inline."""
+    from finn import app as appmod, config
+    monkeypatch.setattr(config, "SERVERLESS", True)
+    appmod._jobs.clear()
+    j = c.get("/api/narrative/ELARAPH").get_json()
+    assert j["state"] == "done" and j["result"]["ledger"] is not None
+
+
+def test_serverless_seeds_cache_into_tmp(tmp_path, monkeypatch):
+    import importlib
+    import shutil
+    from finn import config
+    root = tmp_path / "proj"
+    (root / "data").mkdir(parents=True)
+    (root / "data" / "finn.db").write_bytes(b"seed")
+    monkeypatch.setenv("VERCEL", "1")
+    monkeypatch.delenv("FINN_DATA", raising=False)
+    monkeypatch.setattr("pathlib.Path.resolve", lambda self: root / "finn" / "config.py", raising=False)
+    try:
+        importlib.reload(config)
+        assert config.SERVERLESS and str(config.DATA_DIR) == "/tmp/finn"
+        assert (config.DATA_DIR / "finn.db").read_bytes() == b"seed"
+    finally:
+        shutil.rmtree("/tmp/finn", ignore_errors=True)
+        monkeypatch.undo()
+        importlib.reload(config)

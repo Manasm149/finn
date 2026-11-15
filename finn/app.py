@@ -230,6 +230,12 @@ def get_narrative(symbol):
         if (limited := auth.throttle("heavy")) is not None:
             return limited
         job = _jobs[key] = {"state": "running", "steps": [], "result": None, "error": None}
+        if config.SERVERLESS:          # no reliable background threads: do the work now, answer when done
+            try:
+                job["result"], job["state"] = narrative.run(sym, job["steps"].append), "done"
+            except Exception as e:  # noqa: BLE001
+                job["state"], job["error"] = "error", str(e)[:200]
+            return jsonify(job)
 
         def work():
             try:

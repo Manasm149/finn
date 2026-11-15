@@ -11,8 +11,22 @@ if (ROOT / ".env").exists():
         if "=" in _line and not _line.lstrip().startswith("#"):
             _k, _v = _line.split("=", 1)
             os.environ.setdefault(_k.strip(), _v.strip().strip('"').strip("'"))
-DATA_DIR = Path(os.environ.get("FINN_DATA", ROOT / "data"))
+# Serverless hosts (Vercel) give a read-only disk except /tmp, and may freeze a process
+# as soon as a response is sent. FINN then copies its warmed cache to /tmp on a cold
+# start and runs background work inside the request instead of in a thread.
+SERVERLESS = bool(os.environ.get("VERCEL") or os.environ.get("AWS_LAMBDA_FUNCTION_NAME"))
+if "FINN_DATA" in os.environ:
+    DATA_DIR = Path(os.environ["FINN_DATA"])
+elif SERVERLESS:
+    DATA_DIR = Path("/tmp/finn")
+else:
+    DATA_DIR = ROOT / "data"
 DATA_DIR.mkdir(parents=True, exist_ok=True)
+if SERVERLESS and DATA_DIR != ROOT / "data":
+    import shutil
+    _seed, _live = ROOT / "data" / "finn.db", DATA_DIR / "finn.db"
+    if _seed.exists() and not _live.exists():
+        shutil.copyfile(_seed, _live)     # the cache warmed on your laptop, shipped with the code
 WEB_DIR = ROOT / "web"
 
 # Sample mode: every network call is answered from generated fixtures for
